@@ -10,29 +10,35 @@ function getCurrentDate() {
   return date;
 }
 
+interface WeatherData {
+  weather: { description: string }[];
+  main: { temp: number };
+  name: string;
+}
+
 const Home = () => {
   const date = getCurrentDate();
-  const [weatherData, setWeatherData] = useState<any>(null);
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [city, setCity] = useState("bangkok");
 
-  async function fetchData(cityName) {
+  async function fetchData(cityName: string) {
     try {
       const response = await fetch(
         "http://localhost:3000/api/weather?address=" + cityName
       );
-      const jsonData = (await response.json()).data;
+      const jsonData: WeatherData = (await response.json()).data;
       setWeatherData(jsonData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
 
-  async function fetchDataByCoordinates(latitude, longitude) {
+  async function fetchDataByCoordinates(latitude: number, longitude: number) {
     try {
       const response = await fetch(
         `http://localhost:3000/api/weather?lat=${latitude}&lon=${longitude}`
       );
-      const jsonData = (await response.json()).data;
+      const jsonData: WeatherData = (await response.json()).data;
       setWeatherData(jsonData);
     } catch (error) {
       console.error("Error fetching data:", error);
