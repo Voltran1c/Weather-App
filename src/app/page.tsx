@@ -21,11 +21,11 @@ const Home = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [city, setCity] = useState<string>("bangkok");
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+
   async function fetchData(cityName: string): Promise<void> {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/weather?address=${cityName}`
-      );
+      const response = await fetch(`${apiUrl}/api/weather?address=${cityName}`);
       const jsonData: WeatherData = (await response.json()).data;
       setWeatherData(jsonData);
     } catch (error) {
@@ -33,11 +33,14 @@ const Home = () => {
     }
   }
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-
-  async function fetchData(cityName: string): Promise<void> {
+  async function fetchDataByCoordinates(
+    latitude: number,
+    longitude: number
+  ): Promise<void> {
     try {
-      const response = await fetch(`${apiUrl}/api/weather?address=${cityName}`);
+      const response = await fetch(
+        `${apiUrl}/api/weather?lat=${latitude}&lon=${longitude}`
+      );
       const jsonData: WeatherData = (await response.json()).data;
       setWeatherData(jsonData);
     } catch (error) {
@@ -75,10 +78,7 @@ const Home = () => {
             type="text"
             id="cityName"
             name="cityName"
-            onChange={
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              (e: any) => setCity(e.target.value)
-            }
+            onChange={(e) => setCity(e.target.value)}
           />
           <button className={styles.search_button} type="submit">
             Search
