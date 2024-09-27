@@ -21,8 +21,10 @@ const Home = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [city, setCity] = useState<string>("bangkok");
 
+  // API URL
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
+  // ฟังก์ชันสำหรับดึงข้อมูลโดยใช้ชื่อเมือง
   async function fetchData(cityName: string): Promise<void> {
     try {
       const response = await fetch(`${apiUrl}/api/weather?address=${cityName}`);
@@ -33,6 +35,7 @@ const Home = () => {
     }
   }
 
+  // ฟังก์ชันสำหรับดึงข้อมูลโดยใช้พิกัด
   async function fetchDataByCoordinates(
     latitude: number,
     longitude: number
@@ -48,6 +51,7 @@ const Home = () => {
     }
   }
 
+  // ดึงข้อมูลตำแหน่งปัจจุบันเมื่อโหลดหน้า
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
