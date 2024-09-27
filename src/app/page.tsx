@@ -33,14 +33,11 @@ const Home = () => {
     }
   }
 
-  async function fetchDataByCoordinates(
-    latitude: number,
-    longitude: number
-  ): Promise<void> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+
+  async function fetchData(cityName: string): Promise<void> {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/weather?lat=${latitude}&lon=${longitude}`
-      );
+      const response = await fetch(`${apiUrl}/api/weather?address=${cityName}`);
       const jsonData: WeatherData = (await response.json()).data;
       setWeatherData(jsonData);
     } catch (error) {

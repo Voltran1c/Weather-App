@@ -7,13 +7,12 @@ export async function GET(request: NextRequest) {
   const longitude = searchParams.get("lon");
 
   let url = "";
+  const apiKey = process.env.OPENWEATHER_API_KEY;
+
   if (address) {
-    url =
-      "https://api.openweathermap.org/data/2.5/weather?q=" +
-      address +
-      "&appid=c63790d04054911040176e1fac1f5f2e";
+    url = `https://api.openweathermap.org/data/2.5/weather?q=${address}&appid=${apiKey}`;
   } else if (latitude && longitude) {
-    url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=c63790d04054911040176e1fac1f5f2e`;
+    url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`;
   }
 
   const res = await fetch(url);
