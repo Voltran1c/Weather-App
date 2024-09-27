@@ -19,12 +19,12 @@ interface WeatherData {
 const Home = () => {
   const date = getCurrentDate();
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  const [city, setCity] = useState("bangkok");
+  const [city, setCity] = useState<string>("bangkok");
 
-  async function fetchData(cityName: string) {
+  async function fetchData(cityName: string): Promise<void> {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/weather?address=" + cityName
+        `http://localhost:3000/api/weather?address=${cityName}`
       );
       const jsonData: WeatherData = (await response.json()).data;
       setWeatherData(jsonData);
@@ -33,7 +33,10 @@ const Home = () => {
     }
   }
 
-  async function fetchDataByCoordinates(latitude: number, longitude: number) {
+  async function fetchDataByCoordinates(
+    latitude: number,
+    longitude: number
+  ): Promise<void> {
     try {
       const response = await fetch(
         `http://localhost:3000/api/weather?lat=${latitude}&lon=${longitude}`
@@ -75,10 +78,12 @@ const Home = () => {
             type="text"
             id="cityName"
             name="cityName"
-            onChange={(e) => setCity(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setCity(e.target.value)
+            }
           />
           <button className={styles.search_button} type="submit">
-            Seach
+            Search
           </button>
         </form>
         {weatherData && weatherData.weather && weatherData.weather[0] ? (
