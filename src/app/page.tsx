@@ -18,7 +18,7 @@ interface WeatherData {
 
 const Home = () => {
   const date = getCurrentDate();
-  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null); 
   const [city, setCity] = useState<string>("bangkok");
 
   async function fetchData(cityName: string): Promise<void> {
@@ -78,8 +78,9 @@ const Home = () => {
             type="text"
             id="cityName"
             name="cityName"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setCity(e.target.value)
+            onChange={
+              (e: React.ChangeEvent<HTMLInputElement>) =>
+                setCity(e.target.value)
             }
           />
           <button className={styles.search_button} type="submit">
